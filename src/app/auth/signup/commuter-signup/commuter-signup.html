@@ -1,0 +1,41 @@
+<div class="signup-background">
+
+  <div class="signup-card">
+
+    <!-- Logo same style as login and signup-choice -->
+    <div class="logo-placeholder mb-3"></div>
+
+    <h2 class="text-orange text-center mb-2">Commuter Signup</h2>
+    <p class="text-center mb-4">Create your commuter account</p>
+
+    <input
+      type="text"
+      placeholder="Full Name"
+      class="form-control mb-3"
+      [value]="name()"
+      (input)="name.set($any($event.target).value)"
+    >
+
+    <input
+      type="email"
+      placeholder="Email"
+      class="form-control mb-3"
+      [value]="email()"
+      (input)="email.set($any($event.target).value)"
+    >
+
+    <input
+      type="password"
+      placeholder="Password"
+      class="form-control mb-4"
+      [value]="password()"
+      (input)="password.set($any($event.target).value)"
+    >
+
+    <button class="btn-orange w-100" (click)="register()">
+      Create Account
+    </button>
+
+  </div>
+
+</div>

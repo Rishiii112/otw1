@@ -1,0 +1,102 @@
+<hr class="my-4">
+
+<!-- ADD DRIVER BUTTON -->
+<button type="button" class="btn btn-success mb-4" routerLink="/admin/dashboard/add-driver">
+  Add Driver Account
+</button>
+
+<div class="text-end mb-3">
+  <button class="btn btn-warning" (click)="logout()">Logout</button>
+</div>
+
+<!-- ============================= -->
+<!-- DRIVER ACCOUNTS -->
+<!-- ============================= -->
+<h2 class="mb-3">Driver Accounts</h2>
+
+<div *ngIf="drivers().length === 0" class="alert alert-info">
+  No drivers found.
+</div>
+
+<div class="card shadow mb-3" *ngFor="let d of drivers()">
+  <div class="card-body">
+
+    <!-- Normal View -->
+    <div *ngIf="editDriverId !== d.id">
+      <h4>{{ d.name }}</h4>
+      <p><strong>Email:</strong> {{ d.email }}</p>
+      <p><strong>License:</strong> {{ d.license }}</p>
+      <p><strong>Plate:</strong> {{ d.plate }}</p>
+
+      <div class="text-end mt-2">
+        <button class="btn btn-primary me-2" (click)="startDriverEdit(d)">Update</button>
+        <button class="btn btn-danger" (click)="deleteDriverAccount(d.id)">Delete</button>
+      </div>
+    </div>
+
+    <!-- Edit Mode -->
+    <div *ngIf="editDriverId === d.id">
+      <h5>Edit Driver</h5>
+      <input class="form-control mb-2" [(ngModel)]="editDriverName" placeholder="Full Name">
+      <input class="form-control mb-2" [(ngModel)]="editDriverEmail" placeholder="Email">
+      <input class="form-control mb-2" [(ngModel)]="editDriverLicense" placeholder="License">
+      <input class="form-control mb-2" [(ngModel)]="editDriverPlate" placeholder="Plate">
+
+      <div class="text-end">
+        <button class="btn btn-success me-2"
+          (click)="updateDriver(d.id, {
+            name: editDriverName,
+            email: editDriverEmail,
+            license: editDriverLicense,
+            plate: editDriverPlate
+          })">
+          Save
+        </button>
+        <button class="btn btn-secondary" (click)="cancelDriverEdit()">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="my-4">
+
+<!-- ============================= -->
+<!-- COMMUTER ACCOUNTS -->
+<!-- ============================= -->
+<h2 class="mb-3">Commuter Accounts</h2>
+
+<div *ngIf="commuters().length === 0" class="alert alert-secondary">
+  No commuters found.
+</div>
+
+<div class="card shadow mb-3" *ngFor="let c of commuters()">
+  <div class="card-body">
+
+    <!-- Normal view -->
+    <div *ngIf="editId !== c.id">
+      <h4>{{ c.name }}</h4>
+      <p class="mb-1"><strong>Email:</strong> {{ c.email }}</p>
+
+      <div class="text-end mt-2">
+        <button class="btn btn-primary me-2" (click)="startEdit(c)">Update</button>
+        <button class="btn btn-danger" (click)="deleteCommuter(c.id)">Delete</button>
+      </div>
+    </div>
+
+    <!-- Edit mode -->
+    <div *ngIf="editId === c.id">
+      <h5>Edit Commuter</h5>
+
+      <input class="form-control mb-2" [(ngModel)]="editCommuterName" placeholder="Full Name">
+      <input class="form-control mb-2" [(ngModel)]="editCommuterEmail" placeholder="Email">
+
+      <div class="text-end">
+        <button class="btn btn-success me-2"
+          (click)="updateUser(c.id, { name: editCommuterName, email: editCommuterEmail })">Save</button>
+        <button class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</div>

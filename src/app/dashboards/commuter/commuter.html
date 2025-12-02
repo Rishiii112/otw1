@@ -1,0 +1,101 @@
+<!-- ==================== TOP BAR ==================== -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <button class="toggle-tools-btn" (click)="toggleTools()" [class.active]="showTools">
+      {{ showTools ? '✕ Close Tools' : '☰ Tools' }}
+    </button>
+  </div>
+
+  <div class="top-bar-right">
+    <div class="username">
+      👤 {{ userName || 'Guest' }}
+    </div>
+
+    <div class="menu-buttons">
+      <button class="btn small" (click)="openSettings()">⚙️ Settings</button>
+      <button class="btn small logout" (click)="logout()">🚪 Logout</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MAP ==================== -->
+<div class="map-container">
+  <div id="map" class="map"></div>
+  
+  <!-- Sidebar that slides in from the left -->
+  <div class="map-sidebar" [class.visible]="showTools">
+    <div class="sidebar-header">
+      <strong>Interactive Map Tool</strong>
+      <button class="btn small" (click)="locateMe()">📍 My location</button>
+    </div>
+
+    <div class="control-row">
+      <label for="radiusRange">Radius (m)</label>
+      <input id="radiusRange" type="range" min="50" max="5000" step="10"
+            [(ngModel)]="radius" (input)="updateRadiusFromUI()" />
+    </div>
+
+    <div class="control-row">
+      <input id="radiusNumber" type="number" min="50" max="5000" step="10"
+            [(ngModel)]="radius" (change)="updateRadiusFromUI()" 
+            style="flex:1; padding:6px;" />
+      <button class="btn" (click)="fitToCircle()">Fit</button>
+    </div>
+
+    <!-- removed lat and lng -->
+    <div class="coords">
+      <div>Radius: <span>{{ radius }}</span> m</div>
+    </div>
+
+    <p class="small">Drag the marker to move the circle.</p>
+  </div>
+</div>
+
+
+<!-- ==================== DASHBOARD ==================== -->
+<div class="dashboard-container">
+
+
+<div class="nearest-info" *ngIf="nearestJeep">
+  <h3>Nearest Jeepney</h3>
+  <div><strong>Plate:</strong> {{ nearestJeep.plate }}</div>
+  <div><strong>Distance:</strong> {{ nearestDistanceMeters }} m</div>
+  <div><strong>ETA:</strong> {{ nearestEtaMinutes }} min</div>
+</div>
+
+
+
+  <div class="community">
+    <h4>Community</h4>
+
+    <div class="community-input">
+      <textarea [(ngModel)]="newPostText" placeholder="Share an update…" class="form-control"></textarea>
+      <button class="post-btn w-100 mt-2" (click)="sendPost()">Post</button>
+    </div>
+
+    <ul class="mt-3">
+      <li *ngFor="let post of communityPosts">
+        <strong>{{ post.user || 'Anonymous' }}</strong>: {{ post.text }}
+        <span class="time">{{ post.timeDisplay }}</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- ==================== SETTINGS MODAL ==================== -->
+<div class="modal" *ngIf="showSettings">
+  <div class="modal-content">
+    <h3>Account Settings</h3>
+
+    <label><strong>Username:</strong></label>
+    <input type="text"
+           [(ngModel)]="customUsername"
+           class="form-control"
+           placeholder="Enter username">
+
+    <button class="btn mt-2" (click)="saveUsername()">Save</button>
+
+    <button class="btn mt-3" (click)="closeSettings()">Close</button>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="container my-4">
+
+  <h2 class="mb-3">Create Driver Account</h2>
+
+  <div class="card shadow p-4">
+
+    <div class="mb-3">
+      <label class="form-label">Full Name</label>
+      <input type="text" class="form-control" [(ngModel)]="name">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-control" [(ngModel)]="email">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">License Number</label>
+      <input type="text" class="form-control" [(ngModel)]="license">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Plate Number</label>
+      <input type="text" class="form-control" [(ngModel)]="plate">
+    </div>
+
+    <!-- ✅ Added Password Input -->
+    <div class="mb-3">
+      <label class="form-label">Password</label>
+      <input type="password" class="form-control" [(ngModel)]="password">
+    </div>
+
+    <div class="text-end">
+      <button class="btn btn-secondary me-2" routerLink="/admin/dashboard">Cancel</button>
+      <button class="btn btn-success" (click)="createDriver()">Create Driver</button>
+    </div>
+
+  </div>
+
+</div>

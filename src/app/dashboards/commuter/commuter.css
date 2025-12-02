@@ -1,0 +1,297 @@
+/* ================= TOP BAR ================= */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: #113F67;
+  color: white;
+  font-family: Arial, sans-serif;
+  position: relative;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.top-bar-left {
+  display: flex;
+  align-items: center;
+}
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.menu-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.toggle-tools-btn {
+  background: #1a4d80;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.toggle-tools-btn:hover {
+  background: #2568a8;
+}
+
+.toggle-tools-btn.active {
+  background: #1a4d80;
+}
+
+.logout {
+  background: #d9534f !important;
+  color: white !important;
+}
+
+/* ================= MAP ================= */
+.map-container {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 60px); /* Full height minus top bar */
+  overflow: hidden;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+/* Sidebar styles */
+.map-sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 320px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 900;
+  padding: 20px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.map-sidebar.visible {
+  transform: translateX(0);
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+/* When sidebar is visible, shift the map */
+.map-sidebar.visible + #map {
+  transform: translateX(320px);
+  width: calc(100% - 320px);
+}
+
+/* Ensure map controls are always clickable */
+.leaflet-control {
+  pointer-events: auto !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .map-sidebar {
+    width: 280px;
+  }
+  
+  .map-sidebar.visible + #map {
+    transform: translateX(280px);
+    width: calc(100% - 280px);
+  }
+  
+  .control-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .control-row input[type="range"] {
+    width: 100%;
+  }
+}
+
+.control-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.coords {
+  font-family: monospace;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.small { 
+  font-size: 12px; 
+  color: #555; 
+}
+
+.btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #f7f7f7;
+  cursor: pointer;
+}
+
+/* ================= DASHBOARD ================= */
+.dashboard-container {
+  max-width: 400px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.route-card {
+  background: #f2f4f8;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.alerts, .community {
+  background: #fff;
+  padding: 10px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+li { 
+  margin-bottom: 8px; 
+  font-size: 14px; 
+}
+
+.time { 
+  color: #666; 
+  font-size: 12px; 
+  margin-left: 6px; 
+}
+
+/* Community input */
+.community-input textarea {
+  width: 100%;
+  min-height: 66px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.post-btn {
+  background: #d9534f;
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ================= SETTINGS MODAL ================= */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  min-width: 260px;
+  text-align: center;
+}
+
+.username-display {
+  background: #f2f2f2;
+  padding: 8px;
+  border-radius: 6px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Toggle Button */
+.toggle-sidebar-btn {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 1200;
+  background: #113F67;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+.leaflet-control-zoom {
+  margin-left: 12px !important;
+  margin-bottom: 12px !important;
+}
+
+/* ================= PRIORITY RULES YOU WANT FOLLOWED ================= */
+
+/* Overlay that blocks map interactions when tools are open */
+.disable-map-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100; /* Above the map but below the sidebar */
+  background: transparent;
+  /* No need for pointer-events here as we're handling it on the map container */
+}
+
+/* Map container needs relative position */
+#map {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ensure map controls are still clickable */
+.leaflet-control {
+  pointer-events: auto;
+}
+
+/* Make sure the map itself doesn't capture clicks when tools are open */
+.map.tools-open .leaflet-container {
+  pointer-events: none;
+}
+
+/* But allow interactions within the sidebar */
+.map-sidebar {
+  pointer-events: auto;
+}

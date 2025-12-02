@@ -1,0 +1,34 @@
+<div class="container mt-4">
+  <h2>Driver Signup</h2>
+
+  <!-- NAME -->
+  <input type="text" [ngModel]="name()" (ngModelChange)="name.set($event)" placeholder="Full Name"
+         class="form-control mb-1">
+  <small class="text-danger" *ngIf="submitted && !name()">Full Name is required.</small>
+
+  <!-- EMAIL -->
+  <input type="email" [ngModel]="email()" (ngModelChange)="email.set($event)" placeholder="Email"
+         class="form-control mb-1">
+  <small class="text-danger" *ngIf="submitted && !email()">Email is required.</small>
+
+  <!-- PASSWORD -->
+  <input type="password" [ngModel]="password()" (ngModelChange)="password.set($event)" placeholder="Password"
+         class="form-control mb-1">
+  <small class="text-danger" *ngIf="submitted && !password()">Password is required.</small>
+
+  <!-- LICENSE NUMBER -->
+  <input type="text" [ngModel]="license()" (ngModelChange)="license.set($event)" placeholder="Driver License No."
+         class="form-control mb-1">
+  <small class="text-danger" *ngIf="submitted && !license()">Driver License Number is required.</small>
+
+  <!-- PLATE NUMBER -->
+  <input type="text" [ngModel]="plate()" (ngModelChange)="plate.set($event)" placeholder="Plate Number"
+         class="form-control mb-1">
+  <small class="text-danger" *ngIf="submitted && !plate()">Plate Number is required.</small>
+
+  <!-- BUTTON -->
+  <button class="btn btn-primary w-100 mt-3" (click)="register()"
+          [disabled]="!name() || !email() || !password() || !license() || !plate()">
+          Register Driver
+  </button>
+</div>

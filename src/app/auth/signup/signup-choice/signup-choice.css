@@ -1,0 +1,106 @@
+/* Background (safe absolute path) */
+.signup-bg {
+  background-image: url('../../../../assets/aurora.jpg'); /* Never causes Angular path errors */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+/* Light overlay */
+.signup-bg::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(255, 255, 255, 0.75);
+  z-index: 1;
+}
+
+/* Card styling (same style as login) */
+.signup-card {
+  position: relative;
+  z-index: 2;
+  max-width: 400px;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 1rem;
+  border: 2px solid #FF4500;
+  box-shadow: 0 10px 25px rgba(255, 102, 0, 0.15);
+  padding: 2rem;
+  overflow: hidden;
+}
+
+/* Orange decorative circles */
+.signup-card::before,
+.signup-card::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.1;
+}
+
+.signup-card::before {
+  width: 120px;
+  height: 120px;
+  background-color: #FF4500;
+  top: -40px;
+  right: -40px;
+}
+
+.signup-card::after {
+  width: 80px;
+  height: 80px;
+  background-color: #FF4500;
+  bottom: -20px;
+  left: -20px;
+}
+
+/* Orange theme */
+.text-orange {
+  color: #FF4500 !important;
+}
+
+/* Orange button (same as login) */
+.btn-orange {
+  background-color: #FF4500 !important;
+  color: #ffffff !important;
+  border: 2px solid #FF4500 !important;
+  font-weight: 600;
+  border-radius: 50px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-orange:hover {
+  background-color: #e65c00 !important;
+  border-color: #e65c00 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(255,102,0,0.4);
+}
+
+/* Logo (safe asset path) */
+.signup-logo {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 3px solid #FF4500;
+  background: #fff url('../../../../assets/logo.png') no-repeat center center;
+  background-size: 70%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: transform 0.3s;
+}
+
+.signup-logo:hover {
+  transform: scale(1.05);
+}
+
+/* Mobile adjustments */
+@media (max-width: 576px) {
+  .signup-card {
+    padding: 1.5rem 1rem;
+  }
+  .signup-logo {
+    width: 80px;
+    height: 80px;
+  }
+}

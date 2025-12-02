@@ -1,0 +1,53 @@
+<div class="login-background d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card p-4 rounded-4 shadow login-card">
+
+    <!-- Logo as background div -->
+    <div class="text-center mb-4">
+      <div class="logo-placeholder-bg mb-3"></div>
+      <h2 class="fw-bold text-orange">Welcome Back</h2>
+      <p class="text-muted">Login to your account</p>
+    </div>
+
+    <!-- Error message -->
+    <div *ngIf="error()" class="alert alert-danger">
+      {{ error() }}
+    </div>
+
+    <!-- Email input -->
+    <div class="form-floating mb-3">
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        placeholder="Email"
+        [(ngModel)]="email"
+        (keydown.enter)="login()"
+      />
+      <label for="email">Email</label>
+    </div>
+
+    <!-- Password input -->
+    <div class="form-floating mb-4">
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        placeholder="Password"
+        [(ngModel)]="password"
+        (keydown.enter)="login()"
+      />
+      <label for="password">Password</label>
+    </div>
+
+    <!-- Login button -->
+    <button class="btn btn-orange w-100 py-2 mb-3" (click)="login()">
+      Login
+    </button>
+
+    <!-- Signup link -->
+    <div class="text-center">
+      <span>Don't have an account? </span>
+      <a routerLink="/signup" class="text-orange fw-bold">Create an account</a>
+    </div>
+  </div>
+</div>

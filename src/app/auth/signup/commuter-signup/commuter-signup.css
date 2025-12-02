@@ -1,0 +1,91 @@
+/* Background */
+.signup-background {
+  position: relative;
+  background-image: url('../../../../assets/aurora.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 1;
+}
+
+/* Card */
+.signup-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 1rem;
+  border: 2px solid #FF4500;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(255, 102, 0, 0.15);
+}
+
+/* Logo - exact copy from login and signup-choice */
+.logo-placeholder {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 3px solid #FF4500;
+  background: #fff url('../../../../assets/logo.png') no-repeat center center;
+  background-size: 70%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: transform 0.3s;
+}
+
+.logo-placeholder:hover {
+    transform: scale(1.05);
+}
+
+/* Orange text */
+.text-orange {
+  color: #FF4500 !important;
+}
+
+/* Inputs */
+.form-control {
+  border-radius: 50px;
+  padding: 12px;
+}
+
+.form-control:focus {
+  border-color: #FF4500;
+  box-shadow: 0 0 0 0.2rem rgba(255,102,0,0.2);
+}
+
+/* Button */
+.btn-orange {
+  background-color: #FF4500 !important;
+  color: white !important;
+  border: 2px solid #FF4500 !important;
+  font-weight: 600;
+  border-radius: 50px;
+  padding: 12px;
+  transition: 0.2s;
+}
+
+.btn-orange:hover {
+  background-color: #e65c00 !important;
+  border-color: #e65c00 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(255,102,0,0.4);
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .signup-card {
+    padding: 1.5rem 1rem;
+  }
+}
