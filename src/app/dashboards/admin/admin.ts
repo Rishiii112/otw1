@@ -170,9 +170,14 @@ export class Admin implements OnInit {
     await this.loadDrivers();
   }
 
+  // logout() {
+  // signOut(this.auth).then(() => {
+  //   localStorage.removeItem('user');
+  //   this.router.navigate(['/login']);
+  // });}
   logout() {
-  signOut(this.auth).then(() => {
-    localStorage.removeItem('user');
-    this.router.navigate(['/login']);
-  });}
+    signOut(this.auth).then(() => {
+      alert('Logged out successfully!');
+      window.location.href = '/login';
+    });
 }
