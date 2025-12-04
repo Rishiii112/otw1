@@ -117,13 +117,18 @@ toggleChat() {
   openSettings() { this.showSettings = true; }
   closeSettings() { this.showSettings = false; }
 
-  logout() {
-    signOut(this.auth).then(() => {
-      alert('Logged out successfully!');
-      window.location.href = '../../auth/login/login.html';
-    });
-  }
-
+  // //logout() {
+  //   signOut(this.auth).then(() => {
+  //     alert('Logged out successfully!');
+  //     window.location.href = '../../auth/login/login.html';
+  //   });
+  // }
+logout() {
+  signOut(this.auth).then(() => {
+    localStorage.removeItem('user');
+    this.router.navigate(['/login']);
+  });}
+}
   // ===== Lifecycle =====
   ngAfterViewInit() {
     this.initMap();
