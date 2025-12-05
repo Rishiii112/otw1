@@ -453,6 +453,16 @@ body {
   color: #f9fafb;
 }
 
+/* Mobile: flat side panels, no radial gradient */
+@media (max-width: 480px) {
+  .map-sidebar,
+  .right-dashboard {
+    background: #050112;   /* or any solid color you like */
+    box-shadow: none;      /* optional: also remove heavy side glow */
+  }
+}
+
+
 /* sunset buttons reused */
 .post-btn,
 .btn {
