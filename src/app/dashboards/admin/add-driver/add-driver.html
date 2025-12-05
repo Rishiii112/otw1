@@ -1,50 +1,61 @@
-<div class="otw-create-shell">
-  <div class="otw-create-bg"></div>
+<div class="add-driver-bg">
 
-  <div class="otw-create-content">
-    <div class="otw-create-card">
-      <div class="otw-create-header">
-        <div class="otw-create-logo"></div>
-        <div>
-          <h2 class="otw-create-title">Create Driver Account</h2>
-          <p class="otw-create-subtitle">Add a new driver to OTW</p>
-        </div>
-      </div>
+  <div class="add-driver-card">
 
-      <div class="mb-3">
-        <label class="form-label">Full Name</label>
-        <input type="text" class="form-control" [(ngModel)]="name">
-      </div>
+    <!-- Logo same as commuter signup -->
+    <div class="add-driver-logo mb-3"></div>
 
-      <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input type="email" class="form-control" [(ngModel)]="email">
-      </div>
+    <h2 class="text-orange text-center mb-2">Create Driver Account</h2>
+    <p class="add-driver-subtitle text-center mb-4">Add a new driver to OTW</p>
 
-      <div class="mb-3">
-        <label class="form-label">License Number</label>
-        <input type="text" class="form-control" [(ngModel)]="license">
-      </div>
+    <input
+      type="text"
+      placeholder="Full Name"
+      class="form-control mb-3"
+      [(ngModel)]="name"
+    >
 
-      <div class="mb-3">
-        <label class="form-label">Plate Number</label>
-        <input type="text" class="form-control" [(ngModel)]="plate">
-      </div>
+    <input
+      type="email"
+      placeholder="Email"
+      class="form-control mb-3"
+      [(ngModel)]="email"
+    >
 
-    <div class="mb-3">
-      <label class="form-label">Jeep Capacity</label>
-      <input type="number" class="form-control" [(ngModel)]="capacity" min="1" placeholder="Enter jeep capacity">
+    <input
+      type="text"
+      placeholder="License Number"
+      class="form-control mb-3"
+      [(ngModel)]="license"
+    >
+
+    <input
+      type="text"
+      placeholder="Plate Number"
+      class="form-control mb-3"
+      [(ngModel)]="plate"
+    >
+
+    <input
+      type="number"
+      placeholder="Jeep Capacity"
+      class="form-control mb-3"
+      [(ngModel)]="capacity"
+      min="1"
+    >
+
+    <input
+      type="password"
+      placeholder="Password"
+      class="form-control mb-4"
+      [(ngModel)]="password"
+    >
+
+    <div class="d-flex justify-content-between w-100">
+      <button class="add-driver-cancel-btn" routerLink="/admin/dashboard">Cancel</button>
+      <button class="add-driver-btn" (click)="createDriver()">Create Driver</button>
     </div>
 
-      <div class="mb-3">
-        <label class="form-label">Password</label>
-        <input type="password" class="form-control" [(ngModel)]="password">
-      </div>
-
-      <div class="text-end otw-create-actions">
-        <button class="btn otw-btn-ghost me-2" routerLink="/admin/dashboard">Cancel</button>
-        <button class="btn otw-btn-primary" (click)="createDriver()">Create Driver</button>
-      </div>
-    </div>
   </div>
+
 </div>

@@ -1,135 +1,155 @@
-/* Full-page shell */
-.otw-create-shell {
+/* Full-page background + centering */
+.add-driver-bg {
   position: relative;
   min-height: 100vh;
   display: flex;
-  align-items: stretch;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  box-sizing: border-box;
 }
 
-/* Background: aurora.jpg with soft white overlay */
-.otw-create-bg {
+.add-driver-bg::before {
+  content: '';
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.3)),
-    url("../../../../assets/aurora.jpg");
+    linear-gradient(rgba(10, 6, 30, 0.65), rgba(10, 6, 30, 0.85)),
+    url('../../../../assets/baguio-philippines.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   z-index: 0;
 }
 
-/* Content centering */
-.otw-create-content {
+/* Card */
+.add-driver-card {
   position: relative;
   z-index: 1;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.8rem 1.2rem;
-}
-
-/* Main card – WHITE like login */
-.otw-create-card {
   width: 100%;
-  max-width: 520px;
+  max-width: 420px;
   border-radius: 24px;
   background: rgba(255, 255, 255, 0.96);
   box-shadow: 0 24px 60px rgba(15, 23, 42, 0.3);
-  padding: 1.8rem 1.75rem;
-  color: #111827;
-}
-
-/* Header with logo */
-.otw-create-header {
+  padding: 2rem 1.75rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.9rem;
-  margin-bottom: 1.3rem;
+  box-sizing: border-box;
 }
 
-.otw-create-logo {
-  width: 46px;
-  height: 46px;
-  border-radius: 10px; /* or 0 for a sharp square */
-  background-image: url("../../../../assets/logo.png");
+
+.add-driver-logo {
+  width: 84px;
+  height: 84px;
+  margin: 0 auto;
+  border-radius: 24px;
+  background: #fff url('../../../../assets/logo.png') no-repeat center center;
   background-size: cover;
   background-position: center;
-  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.9);
+  background-repeat: no-repeat;
+  box-shadow: 0 18px 40px rgba(24, 11, 60, 0.45);
 }
 
+.add-driver-logo:hover {
+  transform: scale(1.05);
+}
 
-.otw-create-title {
-  margin: 0;
+/* Titles */
+.text-orange {
   font-size: 1.4rem;
   font-weight: 700;
   color: #111827;
+  text-align: center;
+  margin-bottom: 0.25rem;
 }
 
-.otw-create-subtitle {
-  margin: 0.15rem 0 0;
+.add-driver-subtitle {
   font-size: 0.85rem;
   color: #6b7280;
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
-/* Inputs on light card */
-.otw-create-card .form-label {
-  font-size: 0.85rem;
-  color: #374151;
-}
-
-.otw-create-card .form-control {
-  background-color: #ffffff;
-  border-color: #d1d5db;
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  border-radius: 50px;
+  border: 1px solid #d1d5db;
   color: #111827;
-  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
 }
 
-.otw-create-card .form-control:focus {
-  background-color: #ffffff;
-  border-color: #ff9b3a;
-  box-shadow: 0 0 0 0.12rem rgba(255, 155, 58, 0.35);
+.form-control:focus {
+  border-color: #FF4500;
+  box-shadow: 0 0 0 0.2rem rgba(255,102,0,0.2);
+  outline: none;
 }
 
-/* Actions */
-.otw-create-actions {
-  margin-top: 0.5rem;
-}
-
-/* Primary OTW button */
-.otw-btn-primary {
-  border-radius: 999px;
-  padding: 0.45rem 1.3rem;
+.add-driver-btn {
+  border-radius: 50px;
+  padding: 0.55rem 1.2rem;
+  width: 50%;
   border: none;
-  background: linear-gradient(
-    135deg,
-    #ff9b3a 0%,   /* OTW orange */
-    #ff6fa8 45%,  /* warm pink */
-    #7b61ff 100%  /* soft violet */
-  );
+  background: linear-gradient(135deg, #ff9b3a 0%, #ffb767 40%, #5a2ea8 100%);
   color: #ffffff;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.96rem;
   letter-spacing: 0.03em;
   text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
 }
 
+.add-driver-btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 20px 44px rgba(24, 11, 60, 0.6);
+}
 
-/* Ghost cancel on white card */
-.otw-btn-ghost {
-  border-radius: 999px;
+.add-driver-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 12px 26px rgba(24, 11, 60, 0.4);
+}
+
+.add-driver-cancel-btn {
+  border-radius: 50px;
   padding: 0.45rem 1.1rem;
-  border: 1px solid #ff9b3a;
+  border: 1px solid #FF4500;
   background-color: transparent;
-  color: #ff9b3a;
+  color: #FF4500;
   font-size: 0.86rem;
+  cursor: pointer;
 }
-
 
 /* Mobile tweaks */
-@media (max-width: 768px) {
-  .otw-create-card {
-    padding: 1.6rem 1.4rem;
+@media (max-width: 576px) {
+  .add-driver-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .add-driver-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .text-orange {
+    font-size: 1.2rem;
+  }
+
+  .add-driver-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .form-control {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.9rem;
+  }
+
+  .add-driver-btn {
+    font-size: 0.85rem;
+    padding: 0.45rem 1rem;
   }
 }
