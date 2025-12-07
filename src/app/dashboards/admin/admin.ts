@@ -195,10 +195,10 @@ export class Admin implements OnInit {
   // ==============================
   // LOGOUT
   // ==============================
-  logout() {
-    signOut(this.auth).then(() => {
-      alert('Logged out successfully!');
-      window.location.href = '/otw1/login';
-    });
-  }
+logout() {
+  this.auth.signOut().then(() => {
+    window.location.href = '/otw1/#/login';
+  });
+}
+
 }
