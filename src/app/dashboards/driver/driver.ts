@@ -55,8 +55,11 @@ toggleDriverCommunity() {
 }
 
 logout() {
+  // stop interval and remove jeep doc
+  this.setDriverOffline();   // reuses your existing logic
+
   this.auth.signOut().then(() => {
-    window.location.href = '/login';
+    window.location.href = '/';
   });
 }
 
