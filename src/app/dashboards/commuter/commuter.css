@@ -560,11 +560,33 @@ body {
     display: block;
   }
 
-  .phone-frame {
-    width: 380px;
-    max-width: 100vw;
-    pointer-events: none;
+ /* initial state */
+.phone-frame {
+  position: relative;
+  width: 380px;
+  max-width: 100vw;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(40px) scale(0.96);
+  animation: phoneFadeUp 600ms ease-out forwards;
+}
+
+@keyframes phoneFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
   }
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 
   .phone-screen {
     position: absolute;
