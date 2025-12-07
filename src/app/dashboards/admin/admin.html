@@ -66,7 +66,15 @@
     <section class="otw-section" *ngIf="activeSection === 'drivers'">
       <div class="otw-section-header">
         <h1>Driver Accounts</h1>
-
+        <div class="otw-search-container">
+          <input 
+            type="text" 
+            [(ngModel)]="driverSearchTerm" 
+            (input)="filterDrivers()"
+            placeholder="Search drivers..."
+            class="form-control otw-search-input"
+          >
+        </div>
       </div>
 
       <div *ngIf="drivers().length === 0" class="otw-empty">
@@ -74,7 +82,10 @@
       </div>
 
       <div class="otw-list">
-        <article class="otw-item-card" *ngFor="let d of drivers()">
+        <div *ngIf="filteredDrivers().length === 0" class="otw-empty">
+          No drivers found matching your search.
+        </div>
+        <article class="otw-item-card" *ngFor="let d of filteredDrivers()">
           <!-- View -->
           <div *ngIf="editDriverId !== d.id" class="otw-item-row">
             <div class="otw-item-info">

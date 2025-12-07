@@ -51,6 +51,12 @@ export class Admin implements OnInit {
   editDriverPlate = '';
 
   // -------------------------
+  // SEARCH
+  // -------------------------
+  driverSearchTerm = '';
+  filteredDrivers = signal<any[]>([]);
+
+  // -------------------------
   // SIGNALS
   // -------------------------
   commuters = signal<any[]>([]);
@@ -99,7 +105,26 @@ export class Admin implements OnInit {
     const usersRef = collection(this.firestore, 'users');
     const driverQuery = query(usersRef, where('role', '==', 'driver'));
     const snap = await getDocs(driverQuery);
-    this.drivers.set(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+    const drivers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    this.drivers.set(drivers);
+    this.filteredDrivers.set([...drivers]);
+  }
+
+  filterDrivers() {
+    if (!this.driverSearchTerm.trim()) {
+      this.filteredDrivers.set([...this.drivers()]);
+      return;
+    }
+
+    const searchTerm = this.driverSearchTerm.toLowerCase().trim();
+    const filtered = this.drivers().filter(driver => 
+      driver.name?.toLowerCase().includes(searchTerm) ||
+      driver.email?.toLowerCase().includes(searchTerm) ||
+      (driver.license && driver.license.toLowerCase().includes(searchTerm)) ||
+      (driver.plate && driver.plate.toLowerCase().includes(searchTerm))
+    );
+    
+    this.filteredDrivers.set(filtered);
   }
 
   // ==============================
