@@ -303,9 +303,10 @@ body {
   position: absolute;
   left: 8px;
   right: 8px;
-  bottom: 32px;
+  bottom: calc(env(safe-area-inset-bottom, 0) + 56px);
   z-index: 1000;
 }
+
 
 .gm-bottom-main {
   display: flex;
