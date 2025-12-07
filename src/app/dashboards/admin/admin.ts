@@ -55,6 +55,8 @@ export class Admin implements OnInit {
   // -------------------------
   driverSearchTerm = '';
   filteredDrivers = signal<any[]>([]);
+  commuterSearchTerm = '';
+  filteredCommuters = signal<any[]>([]);
 
   // -------------------------
   // SIGNALS
@@ -95,7 +97,9 @@ export class Admin implements OnInit {
     const usersRef = collection(this.firestore, 'users');
     const commuterQuery = query(usersRef, where('role', '==', 'commuter'));
     const snap = await getDocs(commuterQuery);
-    this.commuters.set(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+    const commuters = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    this.commuters.set(commuters);
+    this.filteredCommuters.set([...commuters]);
   }
 
   // ==============================
@@ -125,6 +129,21 @@ export class Admin implements OnInit {
     );
     
     this.filteredDrivers.set(filtered);
+  }
+
+  filterCommuters() {
+    if (!this.commuterSearchTerm.trim()) {
+      this.filteredCommuters.set([...this.commuters()]);
+      return;
+    }
+
+    const searchTerm = this.commuterSearchTerm.toLowerCase().trim();
+    const filtered = this.commuters().filter(commuter => 
+      commuter.name?.toLowerCase().includes(searchTerm) ||
+      commuter.email?.toLowerCase().includes(searchTerm)
+    );
+    
+    this.filteredCommuters.set(filtered);
   }
 
   // ==============================

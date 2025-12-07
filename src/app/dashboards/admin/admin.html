@@ -128,6 +128,15 @@
     <section class="otw-section" *ngIf="activeSection === 'commuters'">
       <div class="otw-section-header">
         <h1>Commuter Accounts</h1>
+        <div class="otw-search-container">
+          <input 
+            type="text" 
+            [(ngModel)]="commuterSearchTerm" 
+            (input)="filterCommuters()"
+            placeholder="Search commuters..."
+            class="form-control otw-search-input"
+          >
+        </div>
       </div>
 
       <div *ngIf="commuters().length === 0" class="otw-empty">
@@ -135,7 +144,10 @@
       </div>
 
       <div class="otw-list">
-        <article class="otw-item-card" *ngFor="let c of commuters()">
+        <div *ngIf="filteredCommuters().length === 0" class="otw-empty">
+          No commuters found matching your search.
+        </div>
+        <article class="otw-item-card" *ngFor="let c of filteredCommuters()">
           <!-- View -->
           <div *ngIf="editId !== c.id" class="otw-item-row">
             <div class="otw-item-info">
