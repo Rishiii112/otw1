@@ -109,39 +109,49 @@ logout() {
     const driverId = this.driverId;
     const driverName = this.driverName || 'Driver';
 
-    navigator.geolocation.getCurrentPosition(async position => {
-      const { latitude, longitude } = position.coords;
-      const now = Date.now();
+navigator.geolocation.getCurrentPosition(
+  async position => {
+    const { latitude, longitude } = position.coords;
+    const now = Date.now();
 
-      let computedSpeed = 0;
+    let computedSpeed = 0;
 
-      if (this.lastLat !== null && this.lastLng !== null && this.lastTimestamp !== null) {
-        const dt = (now - this.lastTimestamp) / 1000;
-        const dist = this.haversine(this.lastLat, this.lastLng, latitude, longitude);
-        computedSpeed = dist / dt;
-      }
+    if (this.lastLat !== null && this.lastLng !== null && this.lastTimestamp !== null) {
+      const dt = (now - this.lastTimestamp) / 1000;
+      const dist = this.haversine(this.lastLat, this.lastLng, latitude, longitude);
+      computedSpeed = dist / dt;
+    }
 
-      this.lastLat = latitude;
-      this.lastLng = longitude;
-      this.lastTimestamp = now;
+    this.lastLat = latitude;
+    this.lastLng = longitude;
+    this.lastTimestamp = now;
 
-      await setDoc(
-        doc(this.firestore, 'jeepneys', driverId),
-        {
-          id: driverId,
-          plate: this.plate || 'unknown',
-          driverName: driverName,
-          lat: latitude,
-          lng: longitude,
-          updatedAt: now,
-          speed: computedSpeed,
-          routeId: this.routeId,
-          passengerCount: this.passengerCount,
-          capacity: this.capacity
-        },
-        { merge: true }
+    await setDoc(
+      doc(this.firestore, 'jeepneys', driverId),
+      {
+        id: driverId,
+        plate: this.plate || 'unknown',
+        driverName: driverName,
+        lat: latitude,
+        lng: longitude,
+        updatedAt: now,
+        speed: computedSpeed,
+        routeId: this.routeId,
+        passengerCount: this.passengerCount,
+        capacity: this.capacity
+      },
+      { merge: true }
+    );
+  },
+  error => {
+    console.error('Geolocation error', error);
+  },
+  {
+    enableHighAccuracy: true,
+    maximumAge: 0,   
+    timeout: 10000
+    }
       );
-    });
   }
 
   async setDriverOnline() {

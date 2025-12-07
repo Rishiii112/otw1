@@ -15,37 +15,52 @@
           <div id="map" class="map"></div>
 
           <!-- FLOATING TOP NAV BAR -->
-          <div class="gm-top-nav">
-            <button class="gm-icon-btn" (click)="toggleTools()">☰</button>
+<div class="gm-top-nav">
+  <button class="gm-icon-btn" (click)="toggleTools()">☰</button>
 
-            <div class="gm-search-pill">
-              <span class="gm-search-icon">🔍</span>
-              <input
-                class="gm-search-input"
-                type="text"
-                placeholder="Search"
-                [(ngModel)]="searchText"
-                (keyup.enter)="runSearch()" />
-            </div>
+  <div class="gm-search-pill">
+    <span class="gm-search-icon">🔍</span>
+    <input
+      class="gm-search-input"
+      type="text"
+      placeholder="Search"
+      [(ngModel)]="searchText"
+      (keyup.enter)="runSearch()" />
+  </div>
 
-            <button class="gm-icon-btn" (click)="toggleChat()">💬</button>
+  <!-- message gets margin-left:auto to push it and the avatar right -->
+  <button
+    class="gm-icon-btn"
+    (click)="toggleChat()"
+    style="margin-left: auto;">
+    💬
+  </button>
 
-            <button class="gm-avatar-btn" (click)="toggleAccountDropdown()">
-              {{ (userName || 'G')[0] | uppercase }}
-            </button>
+  <button class="gm-avatar-btn" (click)="toggleAccountDropdown()">
+    {{ (userName || 'G')[0] | uppercase }}
+  </button>
 
-            <div class="gm-account-menu" *ngIf="accountDropdownOpen">
-              <button (click)="openSettings()">Settings</button>
-              <button (click)="logout()">Logout</button>
-            </div>
-          </div>
+  <div class="gm-account-menu" *ngIf="accountDropdownOpen">
+    <button (click)="openSettings()">Settings</button>
+    <button (click)="logout()">Logout</button>
+  </div>
+</div>
 
           <!-- CATEGORY CHIPS UNDER NAV -->
-          <div class="gm-chip-row">
-            <button class="gm-chip" (click)="focusNearestJeepney()">Jeepneys</button>
-            <button class="gm-chip" (click)="focusStop()">Stops</button>
-            <button class="gm-chip" (click)="focusTerminal()">Terminal</button>
-          </div>
+<!-- CATEGORY CHIPS UNDER NAV -->
+<div class="gm-chip-row">
+  <button class="gm-chip" (click)="focusNearestJeepney()">Jeepneys</button>
+
+  <!-- Stop: toggle visibility, then focus -->
+  <button class="gm-chip" (click)="toggleStopIcon(); focusStop()">
+    Stop
+  </button>
+
+  <!-- Terminal: toggle visibility, then focus -->
+  <button class="gm-chip" (click)="toggleTerminalIcon(); focusTerminal()">
+    Terminal
+  </button>
+</div>
 
           <!-- RIGHT CONTROLS (e.g., locate me) -->
           <div class="gm-right-controls">

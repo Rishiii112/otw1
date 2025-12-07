@@ -57,13 +57,6 @@ export class Commuter implements AfterViewInit, OnDestroy {
     this.chatText = '';
   }
 
-  // Dashboard static fields
-  route = 'Route 5: Downtown to Uptown';
-  delay = '10 min';
-  delayTime = '08:30 AM';
-  mapUrl = 'https://via.placeholder.com/400x200?text=Route+Map';
-  nextBusTime = '08:45 AM';
-  nextBusDestination = 'Central Station';
 
   // Map
   map!: L.Map;
@@ -79,7 +72,7 @@ export class Commuter implements AfterViewInit, OnDestroy {
 
   // User / commuter location icon
   private userIcon: L.Icon = L.icon({
-    iconUrl: 'assets/location.png',   // put your commuter icon here
+    iconUrl: 'assets/location.png',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
     popupAnchor: [0, -36]
@@ -103,6 +96,10 @@ export class Commuter implements AfterViewInit, OnDestroy {
     popupAnchor: [0, -28]
   });
 
+  // visibility flags for fixed icons
+  showTerminalIcon = false;
+  showStopIcon = false;
+
   // nearest
   nearestJeepneys: any[] = [];
 
@@ -115,6 +112,7 @@ export class Commuter implements AfterViewInit, OnDestroy {
 
   // Tools panel
   showTools = false;
+
   toggleTools() {
     this.showTools = !this.showTools;
   }
@@ -194,27 +192,26 @@ export class Commuter implements AfterViewInit, OnDestroy {
       attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
 
-    // FIXED TERMINAL MARKER (non-draggable, cannot be altered)
+    // FIXED TERMINAL MARKER (created but not added yet)
     const terminalLat = 16.427862459557634;
     const terminalLng = 120.60728876037099;
 
     this.terminalMarker = L.marker(
       [terminalLat, terminalLng],
       { icon: this.terminalIcon, draggable: false }
-    )
-      .addTo(this.map)
-      .bindPopup('<b>Terminal</b>');
+    );
 
-    // FIXED STOP MARKER
+    // FIXED STOP MARKER (created but not added yet)
     const stopLat = 16.41410551293782;
     const stopLng = 120.59551046905928;
 
     this.stopMarker = L.marker(
       [stopLat, stopLng],
       { icon: this.stopIcon, draggable: false }
-    )
-      .addTo(this.map)
-      .bindPopup('<b>Stop</b>');
+    );
+
+    // initial: both hidden
+    this.updateFixedMarkerVisibility();
 
     const center = this.map.getCenter();
     this.createMarkerAndCircle(center.lat, center.lng, this.radius);
@@ -223,6 +220,59 @@ export class Commuter implements AfterViewInit, OnDestroy {
       this.setMarkerAndCircle(e.latlng.lat, e.latlng.lng);
       this.evaluateNearest();
     });
+  }
+
+  // Terminal / Stop toggle logic
+  toggleTerminalIcon() {
+    if (this.showTerminalIcon) {
+      // clicking again hides all
+      this.showTerminalIcon = false;
+      this.showStopIcon = false;
+    } else {
+      // show terminal only
+      this.showTerminalIcon = true;
+      this.showStopIcon = false;
+    }
+    this.updateFixedMarkerVisibility();
+  }
+
+  toggleStopIcon() {
+    if (this.showStopIcon) {
+      // clicking again hides all
+      this.showStopIcon = false;
+      this.showTerminalIcon = false;
+    } else {
+      // show stop only
+      this.showStopIcon = true;
+      this.showTerminalIcon = false;
+    }
+    this.updateFixedMarkerVisibility();
+  }
+
+  private updateFixedMarkerVisibility() {
+    if (!this.map) return;
+
+    // terminal
+    if (this.terminalMarker) {
+      const onMap = this.map.hasLayer(this.terminalMarker);
+      if (this.showTerminalIcon && !onMap) {
+        this.terminalMarker.addTo(this.map);
+      }
+      if (!this.showTerminalIcon && onMap) {
+        this.map.removeLayer(this.terminalMarker);
+      }
+    }
+
+    // stop
+    if (this.stopMarker) {
+      const onMap = this.map.hasLayer(this.stopMarker);
+      if (this.showStopIcon && !onMap) {
+        this.stopMarker.addTo(this.map);
+      }
+      if (!this.showStopIcon && onMap) {
+        this.map.removeLayer(this.stopMarker);
+      }
+    }
   }
 
   focusStop() {
@@ -239,7 +289,6 @@ export class Commuter implements AfterViewInit, OnDestroy {
     if (this.marker) this.marker.remove();
     if (this.circle) this.circle.remove();
 
-    // use custom commuter icon here
     this.marker = L.marker(
       [lat, lng],
       { draggable: true, icon: this.userIcon }
