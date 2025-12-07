@@ -106,7 +106,7 @@ body {
 /* === FLOATING TOP NAV BAR === */
 .gm-top-nav {
   position: absolute;
-  top: 30px;
+  top: 18px;
   left: 8px;
   right: 8px;
   display: flex;
@@ -194,13 +194,24 @@ body {
 /* === CATEGORY CHIPS === */
 .gm-chip-row {
   position: absolute;
-  top: 80px;
+  top: 70px;
   left: 8px;
   right: 8px;
   display: flex;
   gap: 6px;
   overflow-x: auto;
   z-index: 1000;
+}
+
+/* mobile override */
+@media (max-width: 768px) {
+  .gm-top-nav {
+    top: 30px;    /* mobile position */
+  }
+
+  .gm-chip-row {
+    top: 88px;    /* mobile position */
+  }
 }
 
 .community-header {
@@ -303,10 +314,17 @@ body {
   position: absolute;
   left: 8px;
   right: 8px;
-  bottom: calc(env(safe-area-inset-bottom, 0) + 56px);
+  bottom: 32px;
   z-index: 1000;
 }
 
+/* mobile: lift it above browser URL bar */
+@media (max-width: 768px) {
+  .gm-bottom-bar {
+    bottom: calc(env(safe-area-inset-bottom, 0) + 56px);
+    /* or just bottom: 72px; if env() is not needed */
+  }
+}
 
 .gm-bottom-main {
   display: flex;
