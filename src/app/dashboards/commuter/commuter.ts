@@ -160,7 +160,7 @@ export class Commuter implements AfterViewInit, OnDestroy {
   logout() {
     signOut(this.auth).then(() => {
       alert('Logged out successfully!');
-      window.location.href = '/';
+      window.location.href = '/otw1/';
     });
   }
 

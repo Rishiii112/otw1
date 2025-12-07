@@ -59,7 +59,7 @@ logout() {
   this.setDriverOffline();   // reuses your existing logic
 
   this.auth.signOut().then(() => {
-    window.location.href = '/';
+    window.location.href = '/otw1/';
   });
 }
 

@@ -198,7 +198,7 @@ export class Admin implements OnInit {
   logout() {
     signOut(this.auth).then(() => {
       alert('Logged out successfully!');
-      window.location.href = '/';
+      window.location.href = '/otw1/';
     });
   }
 }
