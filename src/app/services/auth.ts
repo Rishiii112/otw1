@@ -48,7 +48,6 @@ export class AuthService {
 
     // If first login, create a basic user document.
     if (!snap.exists()) {
-      // You can change default role, or set to null and force them to choose later.
       const defaultRole = 'commuter';
 
       await setDoc(userRef, {

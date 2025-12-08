@@ -53,7 +53,6 @@ export class Login {
       else if (role === 'driver') this.router.navigate(['/driver/dashboard']);
       else if (role === 'admin') this.router.navigate(['/admin/dashboard']);
       else {
-        // If role is null/unknown, send user to signup/role-selection
         this.router.navigate(['/signup']);
       }
     } catch (err: any) {
