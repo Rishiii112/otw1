@@ -4,7 +4,9 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   setPersistence,
-  browserLocalPersistence
+  browserLocalPersistence,
+  GoogleAuthProvider,
+  signInWithPopup
 } from '@angular/fire/auth';
 import { Firestore, doc, setDoc, getDoc } from '@angular/fire/firestore';
 
@@ -27,10 +29,41 @@ export class AuthService {
     return userId;
   }
 
-  // -------------------- LOGIN (with persistence) --------------------
+  // -------------------- LOGIN (EMAIL + PASSWORD, with persistence) --------------------
   async login(email: string, password: string) {
-    await setPersistence(this.auth, browserLocalPersistence); // persists across reloads
+    await setPersistence(this.auth, browserLocalPersistence);
     return signInWithEmailAndPassword(this.auth, email, password);
+  }
+
+  // -------------------- LOGIN WITH GOOGLE --------------------
+  async loginWithGoogle(): Promise<{ user: any; role: string | null; isNew: boolean }> {
+    await setPersistence(this.auth, browserLocalPersistence);
+
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(this.auth, provider); // Google popup [web:21]
+    const user = result.user;
+
+    const userRef = doc(this.firestore, 'users', user.uid);
+    const snap = await getDoc(userRef);
+
+    // If first login, create a basic user document.
+    if (!snap.exists()) {
+      // You can change default role, or set to null and force them to choose later.
+      const defaultRole = 'commuter';
+
+      await setDoc(userRef, {
+        email: user.email,
+        role: defaultRole,
+        createdAt: new Date()
+      });
+
+      return { user, role: defaultRole, isNew: true };
+    }
+
+    const data = snap.data() as any;
+    const role = (data.role as string) || null;
+
+    return { user, role, isNew: false };
   }
 
   // -------------------- GET USER ROLE --------------------

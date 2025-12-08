@@ -4,11 +4,10 @@
   <div class="otw-login-content">
     <div class="otw-login-card">
       <div class="otw-login-header text-center">
-  <div class="otw-logo-bg mb-3"></div>
-  <h2 class="otw-login-title">Welcome to OTW</h2>
-  <p class="otw-login-subtitle">Login to your account</p>
-</div>
-
+        <div class="otw-logo-bg mb-3"></div>
+        <h2 class="otw-login-title">Welcome to OTW</h2>
+        <p class="otw-login-subtitle">Login to your account</p>
+      </div>
 
       <div *ngIf="error()" class="alert alert-danger mb-3">
         {{ error() }}
@@ -40,6 +39,11 @@
 
       <button class="btn otw-btn-primary w-100 mb-3" (click)="login()">
         Login
+      </button>
+
+      <!-- Google login button -->
+      <button class="btn btn-outline-secondary w-100 mb-3" (click)="loginWithGoogle()">
+        Continue with Google
       </button>
 
       <div class="otw-login-footer text-center">

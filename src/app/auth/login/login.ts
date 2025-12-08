@@ -13,7 +13,7 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './login.css'
 })
 export class Login {
-  
+
   email = signal('');
   password = signal('');
   error = signal('');
@@ -24,6 +24,7 @@ export class Login {
     private router: Router
   ) {}
 
+  // -------------------- EMAIL + PASSWORD LOGIN --------------------
   async login() {
     try {
       const userCredential = await this.authService.login(
@@ -37,10 +38,26 @@ export class Login {
       if (role === 'commuter') this.router.navigate(['/commuter/dashboard']);
       else if (role === 'driver') this.router.navigate(['/driver/dashboard']);
       else if (role === 'admin') this.router.navigate(['/admin/dashboard']);
-      else this.error.set("Invalid role assigned.");
-
+      else this.error.set('Invalid role assigned.');
     } catch (err: any) {
-      this.error.set(err.message);
+      this.error.set(err.message || 'Login failed.');
+    }
+  }
+
+  // -------------------- GOOGLE LOGIN --------------------
+  async loginWithGoogle() {
+    try {
+      const { user, role } = await this.authService.loginWithGoogle();
+
+      if (role === 'commuter') this.router.navigate(['/commuter/dashboard']);
+      else if (role === 'driver') this.router.navigate(['/driver/dashboard']);
+      else if (role === 'admin') this.router.navigate(['/admin/dashboard']);
+      else {
+        // If role is null/unknown, send user to signup/role-selection
+        this.router.navigate(['/signup']);
+      }
+    } catch (err: any) {
+      this.error.set(err.message || 'Google login failed.');
     }
   }
 }
