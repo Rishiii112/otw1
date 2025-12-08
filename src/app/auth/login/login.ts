@@ -24,6 +24,27 @@ export class Login {
     private router: Router
   ) {}
 
+  // ---- ERROR MESSAGES ----
+  private mapAuthErrorToMessage(code: string): string {
+    switch (code) {
+      case 'auth/invalid-email':
+        return 'The email address is not valid.';
+      case 'auth/user-not-found':
+        return 'No account was found with this email.';
+      case 'auth/wrong-password':
+      case 'auth/invalid-credential':
+        return 'The password you entered is incorrect.';
+      case 'auth/user-disabled':
+        return 'This account has been disabled. Please contact support.';
+      case 'auth/popup-closed-by-user':
+        return 'The sign-in window was closed before finishing.';
+      case 'auth/network-request-failed':
+        return 'Network error. Please check your connection and try again.';
+      default:
+        return 'Something went wrong. Please try again.';
+    }
+  }
+
   // -------------------- EMAIL + PASSWORD LOGIN --------------------
   async login() {
     try {
@@ -40,7 +61,8 @@ export class Login {
       else if (role === 'admin') this.router.navigate(['/admin/dashboard']);
       else this.error.set('Invalid role assigned.');
     } catch (err: any) {
-      this.error.set(err.message || 'Login failed.');
+      const code = err?.code || '';
+      this.error.set(this.mapAuthErrorToMessage(code));
     }
   }
 
@@ -56,21 +78,24 @@ export class Login {
         this.router.navigate(['/signup']);
       }
     } catch (err: any) {
-      this.error.set(err.message || 'Google login failed.');
+      const code = err?.code || '';
+      this.error.set(this.mapAuthErrorToMessage(code));
     }
   }
 
+  // -------------------- FORGOT PASSWORD --------------------
   async forgotPassword() {
-  try {
-    const value = this.email().trim();
-    if (!value) {
-      this.error.set('Please enter your email first.');
-      return;
+    try {
+      const value = this.email().trim();
+      if (!value) {
+        this.error.set('Please enter your email first.');
+        return;
+      }
+      await this.authService.resetPassword(value);
+      this.error.set('Password reset email sent. Check your inbox.');
+    } catch (err: any) {
+      const code = err?.code || '';
+      this.error.set(this.mapAuthErrorToMessage(code));
     }
-    await this.authService.resetPassword(value);
-    this.error.set('Password reset email sent. Check your inbox.');
-  } catch (err: any) {
-    this.error.set(err.message || 'Failed to send reset email.');
   }
-}
 }

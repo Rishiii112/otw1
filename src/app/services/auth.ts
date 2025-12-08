@@ -32,7 +32,7 @@ export class AuthService {
 
   //RESET PASS
   async resetPassword(email: string): Promise<void> {
-    await sendPasswordResetEmail(this.auth, email); // sends reset email [web:75][web:78]
+    await sendPasswordResetEmail(this.auth, email); 
   }
 
   // -------------------- LOGIN (EMAIL + PASSWORD, with persistence) --------------------
@@ -46,7 +46,7 @@ export class AuthService {
     await setPersistence(this.auth, browserLocalPersistence);
 
     const provider = new GoogleAuthProvider();
-    const result = await signInWithPopup(this.auth, provider); // Google popup [web:21]
+    const result = await signInWithPopup(this.auth, provider); 
     const user = result.user;
 
     const userRef = doc(this.firestore, 'users', user.uid);
