@@ -35,16 +35,20 @@
   <div class="passenger-counter mt-3">
   <h5>Passengers: <span>{{ passengerCount }}</span> / {{ capacity || 'N/A' }}</h5>
   <div class="counter-buttons">
+    <button (click)="emptyPassengers()">Empty</button>
     <button (click)="passengerCount = passengerCount > 0 ? passengerCount - 1 : 0">-1</button>
-    <button (click)="passengerCount = passengerCount + 1">+1</button>
-    <button (click)="passengerCount = capacity || passengerCount">Full Capacity</button>
+    <button (click)="incrementPassengers()">+1</button>
+    <button class="full-capacity-btn" (click)="passengerCount = capacity || passengerCount">Full Capacity</button>
   </div>
 </div>
 
   <!-- DRIVER COMMUNITY SLIDING PANEL -->
   <div class="right-dashboard" [class.show]="driverCommunityOpen">
     <div class="community">
-      <h4>Driver Community</h4>
+      <div class="community-header">
+        <h4>Driver Community</h4>
+        <button class="community-close" (click)="toggleDriverCommunity()">✕</button>
+      </div>
       <div class="community-input">
         <textarea [(ngModel)]="driverNewPostText"
                   placeholder="Share an update…"

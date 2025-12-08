@@ -29,6 +29,8 @@ export class Driver implements OnDestroy {
   intervalId: any = null;
   driverId: string | null = null;
   driverName: string | null = null;
+  customUsername = '';
+  showSettings = false;
   plate: string | null = null;
 
   lastLat: number | null = null;
@@ -50,8 +52,22 @@ toggleDropdown() {
   this.dropdownOpen = !this.dropdownOpen;
 }
 
+closeDropdown() {
+  this.dropdownOpen = false;
+}
+
 toggleDriverCommunity() {
   this.driverCommunityOpen = !this.driverCommunityOpen;
+}
+
+incrementPassengers() {
+  // If capacity is set, prevent exceeding it
+  if (this.capacity !== null && this.passengerCount >= this.capacity) return;
+  this.passengerCount = this.passengerCount + 1;
+}
+
+emptyPassengers() {
+  this.passengerCount = 0;
 }
 
 logout() {
@@ -74,7 +90,11 @@ logout() {
     onAuthStateChanged(this.auth, async (user) => {
       if (user) {
         this.driverId = user.uid;
-        this.driverName = user.displayName || user.email || 'Driver';
+        const baseName = user.displayName || user.email || 'Driver';
+        const saved = localStorage.getItem('driverCustomUsername');
+
+        this.driverName = saved || baseName;
+        this.customUsername = this.driverName;
 
         // read extra fields from users/{uid}
         const ref = doc(this.firestore, 'users', user.uid);
@@ -89,6 +109,7 @@ logout() {
       } else {
         this.driverId = null;
         this.driverName = null;
+        this.customUsername = '';
         this.plate = null;
       }
     });
@@ -176,6 +197,26 @@ navigator.geolocation.getCurrentPosition(
   toggleOnline() {
     this.isOnline ? this.setDriverOffline() : this.setDriverOnline();
   }
+
+// ===== Settings modal actions =====
+openSettings() {
+  this.closeDropdown();
+  this.showSettings = true;
+}
+
+closeSettings() {
+  this.showSettings = false;
+}
+
+saveUsername() {
+  const name = (this.customUsername || '').trim();
+  if (!name) return alert('Username cannot be empty.');
+
+  this.driverName = name;
+  localStorage.setItem('driverCustomUsername', name);
+
+  alert('Username updated!');
+}
 
   // ===== driver-only community chat =====
   private loadDriverCommunity() {
