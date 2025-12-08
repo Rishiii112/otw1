@@ -6,7 +6,8 @@ import {
   setPersistence,
   browserLocalPersistence,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  sendPasswordResetEmail
 } from '@angular/fire/auth';
 import { Firestore, doc, setDoc, getDoc } from '@angular/fire/firestore';
 
@@ -27,6 +28,11 @@ export class AuthService {
 
     await setDoc(doc(this.firestore, 'users', userId), data);
     return userId;
+  }
+
+  //RESET PASS
+  async resetPassword(email: string): Promise<void> {
+    await sendPasswordResetEmail(this.auth, email); // sends reset email [web:75][web:78]
   }
 
   // -------------------- LOGIN (EMAIL + PASSWORD, with persistence) --------------------

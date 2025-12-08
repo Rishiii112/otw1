@@ -59,4 +59,18 @@ export class Login {
       this.error.set(err.message || 'Google login failed.');
     }
   }
+
+  async forgotPassword() {
+  try {
+    const value = this.email().trim();
+    if (!value) {
+      this.error.set('Please enter your email first.');
+      return;
+    }
+    await this.authService.resetPassword(value);
+    this.error.set('Password reset email sent. Check your inbox.');
+  } catch (err: any) {
+    this.error.set(err.message || 'Failed to send reset email.');
+  }
+}
 }
