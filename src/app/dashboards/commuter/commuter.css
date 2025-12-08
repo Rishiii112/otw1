@@ -203,6 +203,17 @@ body {
   z-index: 1000;
 }
 
+/* mobile override */
+@media (max-width: 768px) {
+  .gm-top-nav {
+    top: 30px;    /* mobile position */
+  }
+
+  .gm-chip-row {
+    top: 88px;    /* mobile position */
+  }
+}
+
 .community-header {
   display: flex;
   align-items: center;
@@ -305,6 +316,14 @@ body {
   right: 8px;
   bottom: 32px;
   z-index: 1000;
+}
+
+/* mobile: lift it above browser URL bar */
+@media (max-width: 768px) {
+  .gm-bottom-bar {
+    bottom: calc(env(safe-area-inset-bottom, 0) + 56px);
+    /* or just bottom: 72px; if env() is not needed */
+  }
 }
 
 .gm-bottom-main {
@@ -541,11 +560,33 @@ body {
     display: block;
   }
 
-  .phone-frame {
-    width: 380px;
-    max-width: 100vw;
-    pointer-events: none;
+ /* initial state */
+.phone-frame {
+  position: relative;
+  width: 380px;
+  max-width: 100vw;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(40px) scale(0.96);
+  animation: phoneFadeUp 600ms ease-out forwards;
+}
+
+@keyframes phoneFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
   }
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 
   .phone-screen {
     position: absolute;
