@@ -65,6 +65,8 @@ export class Commuter implements AfterViewInit, OnDestroy {
   radius = 1500;
   lat = '—';
   lng = '—';
+  private locationInterval: any = null;
+  private hasInitialFix = false;
 
   // Jeepneys
   private jeepMarkers = new Map<string, L.Marker>();
@@ -169,11 +171,13 @@ logout() {
     this.initMap();
     this.listenJeepneysRealtime();
     this.loadCommunityRealtime();
+    this.startUserLocationTracking();
   }
 
   ngOnDestroy() {
     this.jeepSub?.unsubscribe();
     this.communitySub?.unsubscribe();
+    if (this.locationInterval) clearInterval(this.locationInterval);
     try {
       this.map?.off();
       this.map?.remove();
@@ -212,14 +216,6 @@ logout() {
 
     // initial: both hidden
     this.updateFixedMarkerVisibility();
-
-    const center = this.map.getCenter();
-    this.createMarkerAndCircle(center.lat, center.lng, this.radius);
-
-    this.map.on('click', (e: any) => {
-      this.setMarkerAndCircle(e.latlng.lat, e.latlng.lng);
-      this.evaluateNearest();
-    });
   }
 
   // Terminal / Stop toggle logic
@@ -291,22 +287,12 @@ logout() {
 
     this.marker = L.marker(
       [lat, lng],
-      { draggable: true, icon: this.userIcon }
+      { draggable: false, icon: this.userIcon }
     ).addTo(this.map);
 
     this.circle = L.circle([lat, lng], { radius }).addTo(this.map);
 
     this.updateInfo(lat, lng, radius);
-
-    this.marker.on('drag', (e: any) => {
-      const p = e.target.getLatLng();
-      this.circle?.setLatLng(p);
-      this.updateInfo(p.lat, p.lng, this.circle?.getRadius() ?? this.radius);
-      this.evaluateNearest();
-    });
-
-    this.marker.on('click', () => this.updateTooltip());
-    this.circle.on('click', () => this.updateTooltip());
   }
 
   private updateInfo(lat: number, lng: number, radius: number) {
@@ -331,26 +317,65 @@ logout() {
   }
 
   setMarkerAndCircle(lat: number, lng: number) {
-    this.marker?.setLatLng([lat, lng]);
-    this.circle?.setLatLng([lat, lng]);
-    this.updateInfo(lat, lng, this.circle?.getRadius() ?? this.radius);
+    if (!this.marker || !this.circle) {
+      this.createMarkerAndCircle(lat, lng, this.radius);
+    } else {
+      this.marker.setLatLng([lat, lng]);
+      this.circle.setLatLng([lat, lng]);
+      this.updateInfo(lat, lng, this.circle.getRadius() ?? this.radius);
+    }
   }
 
   locateMe() {
-    if (!navigator.geolocation) return alert('Geolocation not supported');
-    navigator.geolocation.getCurrentPosition((pos) => {
-      const lat = pos.coords.latitude;
-      const lng = pos.coords.longitude;
-      this.setMarkerAndCircle(lat, lng);
-      this.map.setView([lat, lng], 15);
-      this.evaluateNearest();
-    });
+    this.refreshUserLocation(true);
   }
 
   private updateTooltip() {
     if (!this.marker || !this.circle) return;
     const p = this.marker.getLatLng();
     const r = this.circle.getRadius();
+  }
+
+  // Continuously track commuter device location (1s interval)
+  private startUserLocationTracking() {
+    if (!navigator.geolocation) {
+      alert('Geolocation not supported');
+      return;
+    }
+
+    if (this.locationInterval) clearInterval(this.locationInterval);
+
+    // First fix recenter map; subsequent ticks just update marker
+    this.refreshUserLocation(true);
+    this.locationInterval = setInterval(() => this.refreshUserLocation(), 1000);
+  }
+
+  private refreshUserLocation(recenter = false) {
+    if (!navigator.geolocation) return;
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+
+        this.setMarkerAndCircle(lat, lng);
+
+        if (recenter || !this.hasInitialFix) {
+          this.map.setView([lat, lng], 15);
+          this.hasInitialFix = true;
+        }
+
+        this.evaluateNearest();
+      },
+      (err) => {
+        console.error('Geolocation error', err);
+      },
+      {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+        timeout: 10000
+      }
+    );
   }
 
   // ===== Jeepney realtime =====
