@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../../services/auth';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms'; // ✅ Import FormsModule
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-admin-setup',
   standalone: true,
-  imports: [FormsModule], // ✅ Add FormsModule here
+  imports: [FormsModule,RouterModule], // ✅ Add FormsModule here
   templateUrl: './admin-setup.html',
   styleUrls: ['./admin-setup.css']
 })
